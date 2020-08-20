@@ -7,7 +7,7 @@ import wx
 
 def main():
     app = wx.App()
-    frame = itf.Interface(parent=None, id = -1)
+    frame = itf.Interface(parent=None, id=-1)
 
     frame.Show()
     app.MainLoop()
