@@ -62,15 +62,16 @@ class Interface(wx.Frame):
                            self.listwidgets[4], self.listwidgets[5], self.listwidgets[6]]
 
     def _cliquer(self, event):
-        """Il y a eu un clic sur le bouton Calcul.
+        """Méthode détaillant les étapes principales du calcul.
         
         On lance les contrôles et calculs pour trouver les résultats souhaités."""
 
+        # Controle du nombre de données renseignées
         if self._ctrl_nb_data():
             res = wx.MessageDialog(self, "Vous devez renseigner au minimum 3 données \n"
                                          "pour avoir un maximum de résultats", "ERREUR",
-                                   style=wx.OK|wx.ICON_WARNING|wx.CENTRE, pos=wx.DefaultPosition)
-            res = res.ShowModal()
+                                   style=wx.OK | wx.ICON_WARNING | wx.CENTRE, pos=wx.DefaultPosition)
+            res.ShowModal()
 
         self.list_var = self._recup_val()
 
@@ -97,7 +98,7 @@ class Interface(wx.Frame):
             res = wx.MessageDialog(self, "Les données saisies contiennent une anomalie et/ou "
                                          "ne suffisent pas à calculer un résultat juste.", "ERREUR",
                                    style=wx.OK | wx.ICON_ERROR | wx.CENTRE, pos=wx.DefaultPosition)
-            res = res.ShowModal()
+            res.ShowModal()
 
         # mise à jour des Entry
         idx = 0
@@ -168,6 +169,7 @@ class Interface(wx.Frame):
 
     def _closebutton(self, event):
         self.Close(True)
+
 
 if __name__ == "__main__":
     app = wx.App()
