@@ -3,17 +3,22 @@
 import wx
 
 
-class Classpvttc(wx.Frame):
+class Classpvttc(wx.Panel):
     """Classe du wx.TextCtrl Prix d'achat HT"""
 
-    def __init__(self, fenetre):
-        super(Classpvttc, self).__init__()
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
 
-        self.lab_pvttc = wx.StaticText(fenetre, -1, "Prix de vente T.T.C.", (25, 105))
-        self.pvttc = wx.TextCtrl(fenetre, -1, value="0.00", pos=(25, 125))
+        self.lab_pvttc = wx.StaticText(self, label="Prix de vente T.T.C")
+        self.pvttc = wx.TextCtrl(self, value="0.00")
 
-        sizer = wx.GridBagSizer()
-        sizer.Add(self.pvttc, (25, 125), (1, 1), wx.EXPAND)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.lab_pvttc, flag=wx.EXPAND)
+        sizer.Add(self.pvttc, proportion=1)
+        sizer.Add(-1, 10)
+        self.SetSizer(sizer)
+        #sizer = wx.GridBagSizer()
+        #sizer.Add(self.pvttc, (25, 125), (1, 1), wx.EXPAND)
 
     def val_get(self):
         """Méthode permettant de vérifier si l'entrée est numérique et de retourner
