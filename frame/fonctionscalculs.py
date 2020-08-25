@@ -113,7 +113,7 @@ def calc_pvttc(paht, txtva, mtttva, pattc, pvttc, txmge, mttmge):
     elif paht != 0 and txtva != 0 and txmge != 0:
         pvttc = round(paht * (1 + (txtva / 100)) * (1 + (txmge / 100)), 2)
     elif paht != 0 and txtva != 0 and mttmge != 0:
-        pvttc = round((paht + mttmge ) * (1 + (txtva / 100)), 2)
+        pvttc = round((paht + mttmge) * (1 + (txtva / 100)), 2)
     elif paht != 0 and txtva == 0 and mttmge != 0:
         pvttc = round(paht + mttmge, 2)
     elif paht != 0 and mtttva != 0 and txmge != 0:
@@ -128,6 +128,8 @@ def calc_pvttc(paht, txtva, mtttva, pattc, pvttc, txmge, mttmge):
         pvttc = round(paht + mttmge, 2)
     elif txtva != 0 and pattc != 0 and mttmge != 0:
         pvttc = round(((pattc / (1 + (txtva / 100))) + mttmge) * (1 + (txtva / 100)), 2)
+    elif txtva == 0 and pattc != 0 and mttmge != 0:
+        pvttc = round(pattc + mttmge, 2)
     elif txtva != 0 and mtttva != 0 and mttmge != 0:
         pvttc = round((((mtttva * 100) / txtva) + mttmge) * (1 + (txtva / 100)), 2)
         # paht = (mtttva * 100) / txtva
@@ -165,6 +167,8 @@ def calc_txmge(paht, txtva, mtttva, pattc, pvttc, txmge, mttmge):
         txmge = round((mttmge / (pattc / (1 + (txtva / 100)))) * 100, 2)
     elif paht != 0 and txtva == 0 and pvttc != 0:
         txmge = round(((pvttc - paht) / paht) * 100, 2)
+    elif txtva == 0 and pattc != 0 and mttmge != 0:
+        txmge = round((mttmge / pattc) * 100, 2)
 
     return txmge
 
@@ -197,8 +201,10 @@ def calc_mttmge(paht, txtva, mtttva, pattc, pvttc, txmge, mttmge):
         mttmge = round(pvttc - paht, 2)
     elif txtva == 0 and mtttva == 0 and pvttc != 0 and txmge != 0:
         mttmge = round(pvttc - (pvttc / (1 + (txmge / 100))), 2)
-    elif txtva !=0 and pattc != 0 and pvttc != 0:
+    elif txtva != 0 and pattc != 0 and pvttc != 0:
         mttmge = round((pvttc / (1 + (txtva / 100))) - (pattc / (1 + (txtva / 100))), 2)
+    elif txtva == 0 and pattc != 0 and txmge != 0:
+        mttmge = round((pattc * txmge) / 100, 2)
     elif paht != 0 and pattc != 0 and pvttc != 0:
         mttmge = round((pvttc / (1 + ((pattc - paht) / paht)) - paht), 2)
         # mtttva = pattc - paht
