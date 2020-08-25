@@ -2,13 +2,13 @@
 # coding: utf-8
 import wx
 import frame.fonctionscalculs as fc
-import frame.mttmgeclass as seven
-import frame.mtttvaclass as three
-import frame.pahtclass as one
-import frame.pattcclass as four
-import frame.pvttcclass as five
-import frame.txmgeclass as six
-import frame.txtvaclass as two
+import frame.mttmgeclass as mttmge
+import frame.mtttvaclass as mtttva
+import frame.pahtclass as paht
+import frame.pattcclass as pattc
+import frame.pvttcclass as pvttc
+import frame.txmgeclass as txmge
+import frame.txtvaclass as txtva
 
 
 class Interface(wx.Frame):
@@ -19,35 +19,85 @@ class Interface(wx.Frame):
     Les widgets sont créés par une méthode de classe lors de l'initialisation"""
 
     def __init__(self, parent, id):
-        wx.Frame.__init__(self, parent, id, 'Calculatrice de marge', size=(365, 370),
+        wx.Frame.__init__(self, parent, id, 'Calculatrice de marge', size=(365, 375),
                           style=wx.DEFAULT_FRAME_STYLE & ~ (wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
 
         icone = wx.Icon("./calcul.ico", wx.BITMAP_TYPE_ICO)
         self.SetIcon(icone)
         self.CentreOnScreen()
-        self.panel = wx.Panel(self)
-        self.parent = parent
-        self._create_widgets()
+        self._initui()
 
-    def _create_widgets(self):
+    def _initui(self):
+
+        self.panel = wx.Panel(self)
+
         # Instanciation des widgets à partir des différentes classes
-        self.list_inst_wid = [one.Classpaht(self.panel), two.Classtxtva(self.panel),
-                              three.Classmtttva(self.panel), four.Classpattc(self.panel),
-                              five.Classpvttc(self.panel), six.Classtxmge(self.panel),
-                              seven.Classmttmge(self.panel)]
+        self.list_inst_wid = [paht.Classpaht(self.panel), txtva.Classtxtva(self.panel),
+                              mtttva.Classmtttva(self.panel), pattc.Classpattc(self.panel),
+                              pvttc.Classpvttc(self.panel), txmge.Classtxmge(self.panel),
+                              mttmge.Classmttmge(self.panel)]
         self.listwidgets = []
 
         for wid in self.list_inst_wid:
             self.listwidgets.append(wid)
 
-        button_quit = wx.Button(self.panel, label="Quitter", pos=(20, 270), size=(140, 40))
+        # Création des boutons de l'interface
+        button_quit = wx.Button(self.panel, label="Quitter", size=(140, 40))
         self.Bind(wx.EVT_BUTTON, self._closebutton, button_quit)
 
-        button_raz = wx.Button(self.panel, label="Remise à zéro", pos=(190, 270), size=(140, 40))
+        button_raz = wx.Button(self.panel, label="Remise à zéro", size=(140, 40))
         self.Bind(wx.EVT_BUTTON, self._raz, button_raz)
 
-        button_calcul = wx.Button(self.panel, label="Calcul", pos=(100, 220), size=(140, 40))
+        button_calcul = wx.Button(self.panel, label="Calcul", size=(140, 40))
         self.Bind(wx.EVT_BUTTON, self._cliquer, button_calcul)
+
+        # Création du sizer principal qui contiendra tous les autres
+        sizer = wx.BoxSizer(wx.VERTICAL)
+
+        # Mise en place des différents sizer et de leur contenu
+
+        sizer1 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer1.AddSpacer(30)
+        sizer1.Add(self.listwidgets[0], flag=wx.TOP, border=15)
+        sizer1.AddSpacer(60)
+        sizer1.Add(self.listwidgets[1], flag=wx.TOP, border=15)
+
+        sizer2 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer2.AddSpacer(30)
+        sizer2.Add(self.listwidgets[2])
+        sizer2.AddSpacer(60)
+        sizer2.Add(self.listwidgets[3])
+
+        sizer3 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer3.AddSpacer(30)
+        sizer3.Add(self.listwidgets[4])
+        sizer3.AddSpacer(60)
+        sizer3.Add(self.listwidgets[5])
+
+        sizer4 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer4.AddSpacer(110)
+        sizer4.Add(self.listwidgets[6])
+
+        sizer5 = wx.BoxSizer(wx.VERTICAL)
+        sizer5.AddSpacer(10)
+
+        sizer6 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer6.AddSpacer(100)
+        sizer6.Add(button_calcul)
+
+        sizer7 = wx.BoxSizer(wx.VERTICAL)
+        sizer7.AddSpacer(10)
+
+        sizer8 = wx.BoxSizer(wx.HORIZONTAL)
+        sizer8.Add(button_quit, flag=wx.LEFT, border=25)
+        sizer8.Add(button_raz, flag=wx.LEFT, border=20)
+
+        list_sizer = [sizer1, sizer2, sizer3, sizer4, sizer5, sizer6, sizer7, sizer8]
+
+        for elt in list_sizer:
+            sizer.Add(elt)
+
+        self.panel.SetSizer(sizer)
 
         # Gestion des évènements saisie clavier
         self.Bind(wx.EVT_CHAR_HOOK, self._onchar)
