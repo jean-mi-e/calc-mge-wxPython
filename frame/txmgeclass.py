@@ -3,17 +3,23 @@
 import wx
 
 
-class Classtxmge(wx.Frame):
+class Classtxmge(wx.Panel):
     """Classe du wx.TextCtrl Prix d'achat HT"""
 
-    def __init__(self, fenetre):
-        super(Classtxmge, self).__init__()
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
 
-        self.lab_txmge = wx.StaticText(fenetre, -1, "Taux de marge", (210, 105))
-        self.txmge = wx.TextCtrl(fenetre, -1, value="0.00", pos=(210, 125))
+        self.lab_txmge = wx.StaticText(self, label="Taux de marge")
+        self.txmge = wx.TextCtrl(self, value="0.00")
 
-        sizer = wx.GridBagSizer()
-        sizer.Add(self.txmge, (210, 125), (1, 1), wx.EXPAND)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.lab_txmge, flag=wx.EXPAND)
+        sizer.Add(self.txmge, proportion=1)
+        sizer.Add(-1, 10)
+        self.SetSizer(sizer)
+
+        #sizer = wx.GridBagSizer()
+        #sizer.Add(self.txmge, (210, 125), (1, 1), wx.EXPAND)
 
     def val_get(self):
         """Méthode permettant de vérifier si l'entrée est numérique et de retourner
