@@ -3,17 +3,22 @@
 import wx
 
 
-class Classpattc(wx.Frame):
+class Classpattc(wx.Panel):
     """Classe du wx.TextCtrl Prix d'achat HT"""
 
-    def __init__(self, fenetre):
-        super(Classpattc, self).__init__()
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
 
-        self.lab_pattc = wx.StaticText(fenetre, -1, "Prix d'achat T.T.C.", (210, 55))
-        self.pattc = wx.TextCtrl(fenetre, -1, value="0.00", pos=(210, 75))
+        self.lab_pattc = wx.StaticText(self, label="Prix d'achat T.T.C.")
+        self.pattc = wx.TextCtrl(self, value="0.00")
 
-        sizer = wx.GridBagSizer()
-        sizer.Add(self.pattc, (210, 75), (1, 1), wx.EXPAND)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.lab_pattc, flag=wx.EXPAND)
+        sizer.Add(self.pattc, proportion=1)
+        sizer.Add(-1, 10)
+        self.SetSizer(sizer)
+        #sizer = wx.GridBagSizer()
+        #sizer.Add(self.pattc, (210, 75), (1, 1), wx.EXPAND)
 
     def val_get(self):
         """Méthode permettant de vérifier si l'entrée est numérique et de retourner
@@ -24,7 +29,7 @@ class Classpattc(wx.Frame):
         except ValueError:
             res = wx.MessageDialog(self, "Le PA T.T.C. n'est pas un nombre", "ERREUR",
                                    style=wx.OK | wx.ICON_ERROR | wx.CENTRE, pos=wx.DefaultPosition)
-            res = res.ShowModal()
+            res.ShowModal()
 
         if self.pattc.GetValue() == '':
             self.pattc.SetValue(float(0))
