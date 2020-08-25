@@ -3,17 +3,27 @@
 import wx
 
 
-class Classmtttva(wx.Frame):
+class Classmtttva(wx.Panel):
     """Classe du wx.TextCtrl Prix d'achat HT"""
 
-    def __init__(self, fenetre):
-        super(Classmtttva, self).__init__()
+    def __init__(self, parent):
+        wx.Panel.__init__(self, parent)
 
-        self.lab_mtttva = wx.StaticText(fenetre, -1, "Montant T.V.A.", (25, 55))
-        self.mtttva = wx.TextCtrl(fenetre, -1, value="0.00", pos=(25, 75))
+        self.lab_mtttva = wx.StaticText(self, label="Montant de la T.V.A.")
+        self.mtttva = wx.TextCtrl(self, value="0.00")
 
-        sizer = wx.GridBagSizer()
-        sizer.Add(self.mtttva, (25, 75), (1, 1), wx.EXPAND)
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(self.lab_mtttva, flag=wx.EXPAND)
+        sizer.Add(self.mtttva, proportion=1)
+        sizer.Add(-1, 10)
+        self.SetSizer(sizer)
+        #sizer.Add(-1, 10)
+        #self.SetSizer(sizer)
+        #self.lab_mtttva = wx.StaticText(fenetre, -1, "Montant T.V.A.", (25, 55))
+        #self.mtttva = wx.TextCtrl(fenetre, -1, value="0.00", pos=(25, 75))
+
+        #sizer = wx.GridBagSizer()
+        #sizer.Add(self.mtttva, (25, 75), (1, 1), wx.EXPAND)
 
     def val_get(self):
         """Méthode permettant de vérifier si l'entrée est numérique et de retourner
